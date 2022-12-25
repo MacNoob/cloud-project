@@ -12,7 +12,7 @@
     - name: added index.html
       ansible.builtin.copy:
         src: files/index.html
-        dest: /var/www/html/index.html
+        dest: /etc/nginx/sites-available/index.html
       tags: file
 
     - name: update nginx config
@@ -22,8 +22,14 @@
       notify:
         - restart nginx
       become: yes
-      tags: file
-
+      tags: file1
+ 
+    - name: restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+      become: yes
+      tags: rell
 
   handlers:
     - name: restart nginx
