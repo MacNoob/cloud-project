@@ -1,6 +1,5 @@
 - hosts: servers
 
-
   tasks:
     - name: 'Update repository cache'
       ansible.builtin.apt:
