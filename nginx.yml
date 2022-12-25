@@ -1,7 +1,8 @@
 ---
-- hosts: web
+- hosts: servers
   vars:
     root_dir: /var/www/html
+    root2_dir: /etc/nginx/sites-available
     conf_dir: /etc/nginx
     nginx_port: 80
 
@@ -14,7 +15,7 @@
       tags: nginx
     
     - name: added index.html
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: files/index.html
         dest: "{{root_dir}}/index.html"
       tags: file
