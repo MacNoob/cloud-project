@@ -1,0 +1,68 @@
+---
+- hosts: servers1
+  vars: 
+    users:
+      - jaime
+      - sansa
+      - robert
+    
+  tasks:
+    - name: add groups
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - students
+        - profi
+      become: yes
+       
+    - name: git install
+      ansible.builtin.apt:
+        name: git
+        state: present
+      become: yes
+
+    - name: add users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        groups: "{{ item.groups }}"
+      loop:
+        - { name: "{{ users[0] }}", groups: students }
+        - { name: "{{ users[1] }}", groups: students }
+        - { name: "{{ users[2] }}", groups: profi }    
+      become: yes
+
+    - name: add_gitconfig
+      ansible.builtin.template:
+        src: files/.gitconfig.j2
+        dest: /home/{{ item }}/.gitconfig
+      loop:
+        - "{{ users[0] }}"
+        - "{{ users[1] }}"
+        - "{{ users[2] }}"
+      become: yes
+
+    - name: add ssh directory
+      ansible.builtin.file:
+        path: "/home/{{ item }}/.ssh/"
+        state: directory
+        mode: 0700  
+      loop:
+        - "{{ users[0] }}"
+        - "{{ users[1] }}"
+        - "{{ users[2] }}"
+      become: yes
+
+
+    - name: add ssh key
+      ansible.builtin.copy:
+        src: files/id_ecdsa.pub
+        dest: "/home/{{ item }}/.ssh/authorized_keys"
+      loop:
+        - "{{ users[0] }}"
+        - "{{ users[1] }}"
+        - "{{ users[2] }}"
+      become: yes
+      
+        

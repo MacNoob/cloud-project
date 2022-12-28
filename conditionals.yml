@@ -1,0 +1,60 @@
+---
+- hosts: servers1
+  
+  tasks:
+    
+    - name: add group 
+      ansible.builtin.group:
+        name: testGroup
+        state: present
+      become: yes
+
+
+    - name: add user
+      ansible.builtin.user:
+        name: testUser
+        state: present
+      become: yes
+
+    - name: install git for Ubuntu
+      ansible.builtin.apt:
+        name: git
+        state: present
+      when: ansible_os_family == "Debian"
+      become: yes
+
+    - name: install git for centOS
+      ansible.builtin.yum:
+        name: git
+        state: present
+      when: ansible_os_family == "RedHat"
+      become: yes
+
+    - name: add .gitconfig
+      ansible.builtin.template:
+        src: files/.gitconfig.j2
+        dest: /home/testUser/.gitconfig
+      become: yes
+
+    - name: add ssh directory
+      ansible.builtin.file:
+        path: "/home/testUser/.ssh/"
+        state: directory
+        mode: 0700
+      become: yes
+
+    - name: add ssh key
+      ansible.builtin.copy:
+        src: files/id_ed25519.pub
+        dest: "/home/testUser/.ssh/authorized_keys"
+      become: yes
+
+    - name: restart ssh ubuntu
+      ansible.builtin.command: sudo systemctl restart ssh
+      when: ansible_os_family == "Debian"
+      become: yes
+      
+    - name: restart ssh centOS
+      ansible.builtin.command: service sshd restart
+      when: ansible_os_family == "RedHat"
+      become: yes
