@@ -1,0 +1,38 @@
+---
+- hosts: ubuntu1
+  vars:
+    server_name: "This is server {{ ansible_hostname }}"
+    curent_date: "{{ ansible_date_time }}"  
+    root_dir: /var/www/html
+    nginx_port: 80
+   
+  tasks:
+    - name: install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+      become: yes
+
+
+    - name: add config file
+      ansible.builtin.template:
+        src: files/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify:
+        - restart nginx
+      become: yes  
+
+
+    - name: add index.html
+      ansible.builtin.template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+      become: yes
+      
+
+  handlers:
+    - name: restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+      become: yes  

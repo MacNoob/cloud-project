@@ -1,8 +1,0 @@
----
-- hosts: servers1
-  vars:
-    server_name:
-      - "This is server {{ ansible_hostname }}"
-    curent_date:
-      - "{{ ansible_date_time }}"  
-   
