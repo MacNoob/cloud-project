@@ -1,0 +1,10 @@
+---
+- hosts: ubuntu1
+
+- name: unstall git
+  ansible.builtin.import_playbook: ansible-playbook-install-git.yml
+  become: yes
+
+- name: install nginx
+  ansible.builtin.import_playbook: ansible-playbook-filters.yml
+  become: yes
