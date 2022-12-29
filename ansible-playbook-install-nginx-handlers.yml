@@ -1,5 +1,5 @@
 ---
-- hosts: servers
+- hosts: ubuntu1
   vars:
     root_dir: /var/www/html
     root2_dir: /etc/nginx/sites-available

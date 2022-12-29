@@ -1,5 +1,5 @@
 ---
-- hosts: servers
+- hosts: ubuntu1
   gather_facts: no
   tasks:
     - name: install git
