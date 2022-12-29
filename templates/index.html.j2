@@ -6,7 +6,8 @@
 </head>
 <body>
   <h1>Hello World!</h1>
-  <h2>"{{ server_name | upper }}"</h2> <!-- Эта строка была приведена в верхний регистр с помощью фильтра -->
-  <small>Deployed at: "{{ curent_date }}"</small> <!-- Локализованная дата -->
+  <h2>"{{ server_name | upper }}"</h2>
+  <pre><code> "{{ cowsay_result.stdout_lines | join('\n') }}" </code></pre>
+  <small>Deployed at: "{{ curent_date.date }} {{ curent_date.tz }} {{ curent_date.time }}"</small>
 </body>
 </html>

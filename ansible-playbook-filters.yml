@@ -5,13 +5,24 @@
     curent_date: "{{ ansible_date_time }}"  
     root_dir: /var/www/html
     nginx_port: 80
-   
+
+
   tasks:
     - name: install nginx
       ansible.builtin.apt:
         name: nginx
         state: latest
       become: yes
+
+
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      become: yes
+
+    -  ansible.builtin.command: cowsay "{{ server_name  }}"
+       register: cowsay_result
 
 
     - name: add config file
