@@ -1,0 +1,7 @@
+---
+- hosts: ubuntu1
+  roles:
+    - role: create_user
+    - role: install_nginx
+    - role: install_git
+    - role: install_nodejs
