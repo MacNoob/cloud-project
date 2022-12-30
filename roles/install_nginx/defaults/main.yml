@@ -1,0 +1,9 @@
+---
+# defaults file for install_nginx
+root_dir: /var/www/html
+root2_dir: /etc/nginx/sites-available
+conf_dir: /etc/nginx
+nginx_port: 80
+server_name: "This is server {{ ansible_hostname }}"
+curent_date: "{{ ansible_date_time }}"  
+ 

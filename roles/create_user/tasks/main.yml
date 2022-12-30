@@ -1,0 +1,13 @@
+---
+# tasks file for create_user
+- name: add user
+  ansible.builtin.user:
+    name: testUser
+    state: present
+  become: yes
+
+- name: add .gitconfig
+  ansible.builtin.template:
+    src: .gitconfig.j2
+    dest: /home/testUser/.gitconfig
+  become: yes

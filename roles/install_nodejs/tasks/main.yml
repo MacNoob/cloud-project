@@ -1,0 +1,9 @@
+---
+# tasks file for install_nodejs
+
+- name: install nodejs
+  ansible.builtin.apt:
+    name: nodejs
+    state: present
+    update_cache: yes
+  become: yes 
